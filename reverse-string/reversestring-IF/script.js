@@ -41,7 +41,7 @@ function renderHistory() {
 
   if (!clearBtn) {
     clearBtn = document.createElement("button");
-    clearBtn.textContent = "Clean history";
+    clearBtn.innerHTML = '<span class="icon">🗑️</span> Clean history';
     clearBtn.className = "clear-history-btn";
     clearBtn.addEventListener("click", () => {
       history = [];
@@ -49,15 +49,23 @@ function renderHistory() {
     });
   }
 
-  // Clear and rebuild title
   historyTitle.innerHTML = "";
+
+  const leftSide = document.createElement("div");
+  leftSide.style.display = "flex";
+  leftSide.style.alignItems = "center";
+  leftSide.style.gap = "0.5rem";
+
   const icon = document.createElement("span");
   icon.className = "icon";
   icon.textContent = "\uD83D\uDCD3";
+
   const titleText = document.createElement("span");
   titleText.textContent = history.length > 0 ? "Past entries:" : "History must be written!";
-  historyTitle.appendChild(icon);
-  historyTitle.appendChild(titleText);
+
+  leftSide.appendChild(icon);
+  leftSide.appendChild(titleText);
+  historyTitle.appendChild(leftSide);
 
   if (history.length > 0) {
     historyTitle.appendChild(clearBtn);

@@ -482,3 +482,106 @@ Aquí tenés todos los archivos actualizados para que la sección de historial f
 
 ¿Querés que te los exporte todos juntos en un `.zip` o vas a copiarlos directamente? También puedo generar el `README.md` actualizado con instrucciones.
 
+# Prompt 10
+
+Sigo viendo algunos problemas repetidos:
+
+- Titulo del historial: Deberia ver "History must be written!" al cargar la pagina o cuando no hay entradas. Sin embargo, veo: "Past entries:".
+- Ademas, el titulo del historial sigue alineado a la derecha de la pantalla. Deberia estar a la izquiera junto al icono. Encima, cuando se agrega el boton "Clean history", se ven el icono, el titulo y el boton con la misma separacion entre ellos, asi: 'Icon Title Clean history' y deberia verse asi: 'Icon title Clean history'. Como te dije: el icono y el titulo siempre alineados a la izquierda y el boton solo a la derecha de la pantalla. Tambien estaria bueno agregar un icono trash al boton de limpiar el historial
+- Sobre cada entrada del historial:
+  - Siguen faltando los bullets para que se entienda que es un item de una lista
+  - Al hacer hover sobre el container de un item, sigo viendo los botones de accion a la derecha de la pantalla y no junto al texto. Revisando el codigo, me parece que la clase .entry-container, no deberia tener space-between para la propiedad "justify-content". Y le pondria un poco de margen (1rem) a la izquierda en ".history-actions" asi los botones no estan pegados al texto
+
+# Response 10
+
+Aquí tenés los archivos corregidos:
+
+---
+
+### ✅ `script.js` (actualizado)
+
+- Muestra correctamente “History must be written!” si no hay entradas.
+- Alinea ícono y título a la izquierda.
+- Ubica el botón “🗑️ Clean history” solo a la derecha.
+- Genera `<li>` válidos con bullets (semántica correcta).
+- Muestra botones de acción en hover, en la misma línea que el texto.
+
+---
+
+### ✅ Cambios necesarios para `styles.css`
+
+Agregá o reemplazá lo siguiente:
+
+```css
+.history-title {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.history-title > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clear-history-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.clear-history-btn:hover {
+  color: #0056b3;
+}
+
+.history-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-item {
+  position: relative;
+}
+
+.entry-container {
+  display: flex;
+  align-items: center;
+}
+
+.entry-container span {
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.history-actions {
+  display: none;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.history-item:hover .history-actions {
+  display: flex;
+}
+```
+
+---
+
+¿Querés que empaquete esto como `.zip` listo para descargar o vas a seguir editando por tu cuenta?
