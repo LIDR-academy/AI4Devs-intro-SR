@@ -65,3 +65,21 @@ Perfect, actualicé el `index.html` con todos los elementos que mencionaste. Lo 
 ¿Querés que arranque por los estilos o el JavaScript?
 
 File: index.html
+
+# Prompt 2:
+
+El que prefieras, o ambos
+
+# Respuesta 2:
+
+Listo, ya tenés tu app completa con:
+
+- **HTML semántico y organizado** (`index.html`)
+- **Estilos suaves y personalizables** con CSS variables (`styles.css`)
+- **JS modular y claro**, sin localStorage, con manejo de historia en memoria (`script.js`)
+
+Podés probarlo directamente agregando los archivos `styles.css` y `script.js` junto al `index.html`.
+
+¿Querés que empaquete los tres archivos en un `.zip` o que te genere algún test de funcionalidad?
+
+File: script.js y styles.css
