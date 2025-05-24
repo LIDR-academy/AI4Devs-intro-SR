@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        button {
+            margin-left: 0.25rem;
+        }
+        li {
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reverse String</h1>
+    <input type="text" id="inputText" placeholder="Introduce texto a invertir" oninput="autoReverse()">
+    <button onclick="reverseString()">Invertir</button>
+    <label>
+        <input type="checkbox" id="autoMode" onclick="toggleAutoMode()"> Modo automático
+    </label>
+    <p id="previewText"></p>
+    <ul id="historyList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
