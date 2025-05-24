@@ -990,3 +990,245 @@ Asegurate de tener esto también:
 ---
 
 Con eso todo debería funcionar perfecto. ¿Querés que te lo empaquete listo para correr con los tests incluidos?
+
+# Prompt 14
+
+Funciono pero fallaron casi todos los tests. npm test
+
+> reverse-string-app@1.0.0 test
+> jest
+
+FAIL ./script.test.js
+Reverse String App
+✓ automatic mode is enabled by default (11 ms)
+✕ reverses text automatically on input (5 ms)
+✕ manual mode disables output and enables reverse button (3 ms)
+✕ clicking Reverse in manual mode reverses the text (2 ms)
+✕ copy adds to history and clears input (2 ms)
+✕ clean history button clears all entries (2 ms)
+
+● Reverse String App › reverses text automatically on input
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "sveD4IA"
+    Received: "Type something above"
+
+      28 |     const output = document.getElementById("outputBox");
+      29 |     fireEvent.input(input, { target: { value: "AI4Devs" } });
+    > 30 |     expect(output.textContent).toBe("sveD4IA");
+         |                                ^
+      31 |   });
+      32 |
+      33 |   test("manual mode disables output and enables reverse button", () => {
+
+      at Object.<anonymous> (script.test.js:30:32)
+
+● Reverse String App › manual mode disables output and enables reverse button
+
+    expect(element).not.toBeDisabled()
+
+    Received element is disabled:
+      <button class="btn primary" disabled="" id="reverseBtn" />
+
+      40 |     fireEvent.input(input, { target: { value: "hello" } });
+      41 |
+    > 42 |     expect(reverseBtn).not.toBeDisabled();
+         |                            ^
+      43 |     expect(output.textContent).toBe("Type something above");
+      44 |   });
+      45 |
+
+      at Object.<anonymous> (script.test.js:42:28)
+
+● Reverse String App › clicking Reverse in manual mode reverses the text
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "olleh"
+    Received: "Type something above"
+
+      53 |     fireEvent.input(input, { target: { value: "hello" } });
+      54 |     fireEvent.click(reverseBtn);
+    > 55 |     expect(output.textContent).toBe("olleh");
+         |                                ^
+      56 |   });
+      57 |
+      58 |   test("copy adds to history and clears input", () => {
+
+      at Object.<anonymous> (script.test.js:55:32)
+
+● Reverse String App › copy adds to history and clears input
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "emypoc"
+
+    Number of calls: 0
+
+      71 |     fireEvent.click(copyBtn);
+      72 |
+    > 73 |     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("emypoc");
+         |                                           ^
+      74 |     expect(input.value).toBe("");
+      75 |     expect(historyList.children.length).toBe(1);
+      76 |   });
+
+      at Object.<anonymous> (script.test.js:73:43)
+
+● Reverse String App › clean history button clears all entries
+
+    Unable to fire a "click" event - please provide a DOM element.
+
+      87 |
+      88 |     const cleanBtn = document.querySelector(".clear-history-btn");
+    > 89 |     fireEvent.click(cleanBtn);
+         |               ^
+      90 |
+      91 |     expect(historyList.children.length).toBe(0);
+      92 |     const historyTitle = document.getElementById("historyTitleText");
+
+      at createEvent (node_modules/@testing-library/dom/dist/events.js:27:11)
+      at Function.createEvent.<computed> [as click] (node_modules/@testing-library/dom/dist/events.js:106:38)
+      at Function.fireEvent.<computed> [as click] (node_modules/@testing-library/dom/dist/events.js:110:68)
+      at Object.<anonymous> (script.test.js:89:15)
+
+Test Suites: 1 failed, 1 total
+Tests: 5 failed, 1 passed, 6 total
+
+# Response 14
+
+Gracias por el detalle. El problema principal es que el `script.js` actual **depende de elementos renderizados dinámicamente y eventos posteriores al load**. En un entorno de test, esos eventos (como `DOMContentLoaded`, o la ejecución de `renderHistory()`) no siempre se disparan como en el navegador real.
+
+Te paso una versión robusta de los tests **ajustada al comportamiento real de tu app**, asegurando que se inicialice correctamente y se simulen todos los pasos necesarios.
+
+---
+
+### ✅ Solución completa: `script.test.js` (versión nueva, ajustada)
+
+```js
+/**
+ * @jest-environment jsdom
+ */
+
+const fs = require("fs");
+const path = require("path");
+const { fireEvent } = require("@testing-library/dom");
+require("@testing-library/jest-dom");
+
+const html = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf8");
+
+describe("Reverse String App", () => {
+  let container;
+
+  beforeEach(() => {
+    document.documentElement.innerHTML = html;
+    container = document.body;
+    // Ejecutar script después de asegurar HTML disponible
+    jest.resetModules(); // importante para evitar doble carga
+    require("./script.js");
+  });
+
+  test("automatic mode is enabled by default", () => {
+    const autoMode = document.getElementById("autoMode");
+    expect(autoMode).toBeChecked();
+  });
+
+  test("reverses text automatically on input", () => {
+    const input = document.getElementById("textInput");
+    const output = document.getElementById("outputBox");
+
+    fireEvent.input(input, { target: { value: "AI4Devs" } });
+
+    expect(output).toHaveTextContent("sveD4IA");
+  });
+
+  test("manual mode disables output and enables reverse button", () => {
+    const input = document.getElementById("textInput");
+    const output = document.getElementById("outputBox");
+    const autoMode = document.getElementById("autoMode");
+    const reverseBtn = document.getElementById("reverseBtn");
+
+    fireEvent.click(autoMode); // disable automatic
+    fireEvent.input(input, { target: { value: "hello" } });
+
+    expect(reverseBtn).not.toBeDisabled();
+    expect(output).toHaveTextContent("Type something above");
+  });
+
+  test("clicking Reverse in manual mode reverses the text", () => {
+    const input = document.getElementById("textInput");
+    const reverseBtn = document.getElementById("reverseBtn");
+    const autoMode = document.getElementById("autoMode");
+    const output = document.getElementById("outputBox");
+
+    fireEvent.click(autoMode); // disable automatic
+    fireEvent.input(input, { target: { value: "hello" } });
+    fireEvent.click(reverseBtn);
+
+    expect(output).toHaveTextContent("olleh");
+  });
+
+  test("copy adds to history and clears input", () => {
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: jest.fn(),
+      },
+    });
+
+    const input = document.getElementById("textInput");
+    const copyBtn = document.getElementById("copyBtn");
+    const historyList = document.getElementById("historyList");
+    const output = document.getElementById("outputBox");
+
+    fireEvent.input(input, { target: { value: "copyme" } });
+
+    // Simula auto output
+    expect(output).toHaveTextContent("emypoc");
+
+    fireEvent.click(copyBtn);
+
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("emypoc");
+    expect(input.value).toBe("");
+    expect(historyList.children.length).toBe(1);
+  });
+
+  test("clean history button clears all entries", () => {
+    const input = document.getElementById("textInput");
+    const copyBtn = document.getElementById("copyBtn");
+    const historyList = document.getElementById("historyList");
+
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: jest.fn(),
+      },
+    });
+
+    fireEvent.input(input, { target: { value: "first" } });
+    fireEvent.click(copyBtn);
+    fireEvent.input(input, { target: { value: "second" } });
+    fireEvent.click(copyBtn);
+
+    const cleanBtn = document.querySelector(".clear-history-btn");
+    expect(cleanBtn).toBeInTheDocument();
+
+    fireEvent.click(cleanBtn);
+
+    expect(historyList.children.length).toBe(0);
+    const historyTitle = document.getElementById("historyTitleText");
+    expect(historyTitle).toHaveTextContent("History must be written!");
+  });
+});
+```
+
+---
+
+### 🛠️ Consideraciones
+
+- `jest.resetModules()` es clave para evitar que `require('./script.js')` mantenga estado entre tests.
+- El test de clipboard se burla correctamente (`navigator.clipboard.writeText = jest.fn()`).
+- Asegura que `.clear-history-btn` exista antes de hacer click.
+
+---
+
+¿Querés que lo empaquete todo listo para ejecutar con Jest (`.zip`) o lo vas a mantener así?
