@@ -1,0 +1,25 @@
+{
+  "name": "reverse-string-app",
+  "version": "1.0.0",
+  "description": "A simple reverse string app with manual and automatic modes",
+  "scripts": {
+    "test": "jest"
+  },
+  "type": "module",
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "transform": {}
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^6.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
