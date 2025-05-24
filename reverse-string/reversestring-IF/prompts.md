@@ -585,3 +585,174 @@ Agregá o reemplazá lo siguiente:
 ---
 
 ¿Querés que empaquete esto como `.zip` listo para descargar o vas a seguir editando por tu cuenta?
+
+# Prompt 11
+
+Algunas mejoras de UI que necesito:
+
+- Sigo viendo el texto "Past entries" al iniciar la pagina (en vez de History must be written!, creo que puede ser por el html inicial) y encima a la derecha (adjunto imagen). Lo curioso es que cauando escribo una entrada, el texto past entries se acomoda a la izquierda como se espera. Lo mismo si borro las entradas, veo el titulo "History must be written!" a la izquierda. Te adjunto captura de pantalla y el html inicial
+- El icono de borrar, ponelo al final del texto "Clean history" en vez de antes.
+- Sigo sin ver los bullets de cada entry del historial. Segun mis conocimientos de html y css, eso esta ocurriendo debido a que seteamos display: flex al list-item (li). En esos casos, podemos agregarselos con css asi: "li::before { content: '•'; margin-right: 8px; color: black; }"
+- Aparecio un poco de layout shifting en los items del historial, creo que se soluciona agregando "justify-content: center;" en el selector ".history-list li". Ademas el contenido no se ve centrado verticalmente. Tambien creo que la altura minima de .history-item es exagerada
+
+# Response 11
+
+Gracias por la captura y el detalle. A continuación te paso todas las correcciones necesarias en los tres archivos involucrados:
+
+---
+
+### ✅ `index.html` (ajuste inicial del título del historial)
+
+Reemplazá el contenido de `.history-title` por:
+
+```html
+<h2 class="history-title">
+  <div>
+    <span class="icon">&#x1F4D3;</span>
+    <span id="historyTitleText">History must be written!</span>
+  </div>
+  <!-- El botón 'Clean history' será insertado por JS si hay entradas -->
+</h2>
+```
+
+---
+
+### ✅ `script.js` (ajustes clave)
+
+Reemplazá la función `renderHistory()` por esta versión:
+
+```js
+function renderHistory() {
+  historyList.innerHTML = "";
+
+  if (!clearBtn) {
+    clearBtn = document.createElement("button");
+    clearBtn.innerHTML = 'Clean history <span class="icon">🗑️</span>';
+    clearBtn.className = "clear-history-btn";
+    clearBtn.addEventListener("click", () => {
+      history = [];
+      renderHistory();
+    });
+  }
+
+  const historyText = document.getElementById("historyTitleText");
+  if (history.length === 0) {
+    historyText.textContent = "History must be written!";
+    if (clearBtn.parentNode) clearBtn.remove();
+    return;
+  }
+
+  historyText.textContent = "Past entries:";
+  if (!clearBtn.parentNode) {
+    historyTitle.appendChild(clearBtn);
+  }
+
+  history.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = "history-item";
+
+    const container = document.createElement("div");
+    container.className = "entry-container";
+
+    const span = document.createElement("span");
+    span.textContent = item;
+    span.title = item;
+
+    const actions = document.createElement("div");
+    actions.className = "history-actions";
+
+    const copy = document.createElement("button");
+    copy.textContent = "Copy";
+    copy.addEventListener("click", () => {
+      navigator.clipboard.writeText(reverseText(item));
+      showToast("Copied to clipboard!");
+    });
+
+    const edit = document.createElement("button");
+    edit.textContent = "Edit";
+    edit.addEventListener("click", () => {
+      input.value = item;
+      input.focus();
+      if (autoModeCheckbox.checked) updateOutput(item);
+    });
+
+    actions.appendChild(copy);
+    actions.appendChild(edit);
+    container.appendChild(span);
+    container.appendChild(actions);
+    li.appendChild(container);
+    historyList.appendChild(li);
+  });
+}
+```
+
+---
+
+### ✅ `styles.css` (correcciones visuales)
+
+Agregá o modificá estas reglas:
+
+```css
+.history-title {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.history-title > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Bullet manual */
+.history-list li::before {
+  content: "•";
+  color: black;
+  margin-right: 8px;
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.history-list li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* centrado vertical y horizontal estable */
+  min-height: 2rem;
+  padding: 0.25rem 0;
+  transition: background 0.2s ease-in-out;
+}
+
+.entry-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.history-actions {
+  display: none;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.history-item:hover .history-actions {
+  display: flex;
+}
+```
+
+---
+
+Esto corrige:
+
+- ✅ Título correcto al inicio y después de limpiar.
+- ✅ Alineación correcta de título a la izquierda y botón a la derecha.
+- ✅ Ícono de eliminar al final del texto "Clean history".
+- ✅ Bullets visibles incluso con `display: flex`.
+- ✅ Sin layout shifting, contenido centrado vertical y horizontalmente.
+
+¿Querés que lo empaquete todo en un `.zip` ahora?

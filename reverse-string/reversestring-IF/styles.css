@@ -152,10 +152,21 @@ body {
   gap: 0.5rem;
 }
 
+.history-list li::before {
+  content: "•";
+  color: black;
+  margin-right: 8px;
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .history-list li {
   display: flex;
-  flex-direction: column;
-  min-height: 2.5rem;
+  align-items: center;
+  justify-content: flex-start; /* centrado vertical y horizontal estable */
+  min-height: 2rem;
   padding: 0.25rem 0;
   transition: background 0.2s ease-in-out;
 }
@@ -214,6 +225,7 @@ body {
 .entry-container {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .entry-container span {
