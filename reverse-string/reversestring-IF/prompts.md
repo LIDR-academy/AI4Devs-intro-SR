@@ -756,3 +756,45 @@ Esto corrige:
 - ✅ Sin layout shifting, contenido centrado vertical y horizontalmente.
 
 ¿Querés que lo empaquete todo en un `.zip` ahora?
+
+# Prompt 12
+
+Casi estamos, veo un problema de UI en el historial: esta cortando el texto de las entradas. El texto deberia alcanzar el 50% del width de la pantalla antes de aplicar ellipsis.
+
+# Response 12
+
+Perfecto. Lo que ocurre es que el `span` que contiene el texto de cada entrada tiene `max-width: 50%`, pero su contenedor (`entry-container`) no se está expandiendo al 100% del ancho disponible, lo que limita el espacio real que puede ocupar el texto.
+
+---
+
+### ✅ Solución CSS
+
+Agregá estas reglas o asegurate de reemplazar lo que ya haya relacionado:
+
+```css
+.entry-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%; /* aseguramos el ancho completo */
+}
+
+.entry-container span {
+  flex-grow: 1;
+  max-width: 50vw; /* mejor usar viewport width directamente */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+```
+
+Esto garantiza que:
+
+- El contenedor se expanda horizontalmente.
+- El texto ocupe hasta la mitad del viewport real antes de cortar con ellipsis.
+- Los botones de acción estén alineados correctamente, sin romper la distribución.
+
+---
+
+¿Querés que prepare un `.zip` con todo el proyecto corregido y optimizado para descarga?

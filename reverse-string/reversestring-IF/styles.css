@@ -226,10 +226,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  width: 100%; /* aseguramos el ancho completo */
 }
 
 .entry-container span {
-  max-width: 50%;
+  flex-grow: 1;
+  max-width: 50vw; /* mejor usar viewport width directamente */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
