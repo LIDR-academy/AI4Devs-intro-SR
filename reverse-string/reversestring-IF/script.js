@@ -7,6 +7,7 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.querySelector(".history-title");
 
 let history = [];
+let clearBtn = null;
 
 function reverseText(text) {
   return text.split("").reverse().join("");
@@ -37,28 +38,43 @@ function updateHistory(text) {
 
 function renderHistory() {
   historyList.innerHTML = "";
-  if (history.length === 0) {
-    historyTitle.innerHTML = '<span class="icon">\uD83D\uDCD3</span> History must be written!';
-    return;
+
+  if (!clearBtn) {
+    clearBtn = document.createElement("button");
+    clearBtn.textContent = "Clean history";
+    clearBtn.className = "clear-history-btn";
+    clearBtn.addEventListener("click", () => {
+      history = [];
+      renderHistory();
+    });
   }
 
-  historyTitle.innerHTML = '<span class="icon">\uD83D\uDCD3</span> Past entries:';
+  // Clear and rebuild title
+  historyTitle.innerHTML = "";
+  const icon = document.createElement("span");
+  icon.className = "icon";
+  icon.textContent = "\uD83D\uDCD3";
+  const titleText = document.createElement("span");
+  titleText.textContent = history.length > 0 ? "Past entries:" : "History must be written!";
+  historyTitle.appendChild(icon);
+  historyTitle.appendChild(titleText);
+
+  if (history.length > 0) {
+    historyTitle.appendChild(clearBtn);
+  } else if (clearBtn.parentNode) {
+    clearBtn.remove();
+  }
 
   history.forEach((item) => {
     const li = document.createElement("li");
+    li.className = "history-item";
+
     const container = document.createElement("div");
-    container.style.display = "flex";
-    container.style.alignItems = "center";
-    container.style.justifyContent = "space-between";
-    container.style.width = "100%";
+    container.className = "entry-container";
 
     const span = document.createElement("span");
     span.textContent = item;
     span.title = item;
-    span.style.maxWidth = "50%";
-    span.style.overflow = "hidden";
-    span.style.textOverflow = "ellipsis";
-    span.style.whiteSpace = "nowrap";
 
     const actions = document.createElement("div");
     actions.className = "history-actions";
@@ -89,16 +105,8 @@ function renderHistory() {
 
 function showToast(message) {
   const toast = document.createElement("div");
+  toast.className = "toast";
   toast.textContent = message;
-  toast.style.position = "fixed";
-  toast.style.bottom = "1rem";
-  toast.style.right = "1rem";
-  toast.style.backgroundColor = "#28a745";
-  toast.style.color = "white";
-  toast.style.padding = "0.75rem 1.25rem";
-  toast.style.borderRadius = "0.5rem";
-  toast.style.boxShadow = "0 0.5rem 1rem rgba(0,0,0,0.15)";
-  toast.style.zIndex = 1000;
   document.body.appendChild(toast);
   setTimeout(() => {
     toast.remove();
