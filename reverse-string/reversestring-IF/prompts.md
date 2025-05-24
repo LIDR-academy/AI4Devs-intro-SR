@@ -798,3 +798,195 @@ Esto garantiza que:
 ---
 
 ¿Querés que prepare un `.zip` con todo el proyecto corregido y optimizado para descarga?
+
+# Prompt 13
+
+Excelente, quedo increíble la app. Ahora quiero terminar la suite de tests. Anteriormente había unos errores, de todos modos no creo que importe porque la aplicación cambio, pero te los comparto. npm test
+
+> reverse-string-app@1.0.0 test
+> jest
+
+FAIL ./script.test.js
+● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /Users/nacho/code/l1dr/AI4Devs-intro-SR/reverse-string/reversestring-IF/script.test.js:5
+    import "@testing-library/jest-dom";
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+
+Test Suites: 1 failed, 1 total
+Tests: 0 total
+Snapshots: 0 total
+Time: 0.299 s
+
+# Response 13
+
+Gracias por compartir el error, y me alegra que la app esté increíble 🎉
+El error se debe a que estás usando `import` (ES Modules) en un entorno que no lo soporta por defecto. Pero es fácil de solucionar.
+
+---
+
+## ✅ Cómo solucionar el error de Jest con ES Modules
+
+### 1. ✅ **Asegurate que tu `package.json` tenga `"type": "module"`**
+
+Ya lo tenías, así que bien ahí 👍
+
+---
+
+### 2. ✅ **Usá extensiones `.cjs` o convertí el test a CommonJS**
+
+Jest aún ejecuta tests en CommonJS a menos que lo configures específicamente. La forma más fácil es **usar CommonJS** en `script.test.js`.
+
+### 🔁 Reemplazá `script.test.js` con este contenido:
+
+```js
+/**
+ * @jest-environment jsdom
+ */
+
+const fs = require("fs");
+const path = require("path");
+const { fireEvent, getByText } = require("@testing-library/dom");
+require("@testing-library/jest-dom");
+
+const html = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf8");
+
+describe("Reverse String App", () => {
+  let container;
+
+  beforeEach(() => {
+    document.documentElement.innerHTML = html;
+    container = document.body;
+    require("./script.js");
+  });
+
+  test("automatic mode is enabled by default", () => {
+    const autoMode = document.getElementById("autoMode");
+    expect(autoMode).toBeChecked();
+  });
+
+  test("reverses text automatically on input", () => {
+    const input = document.getElementById("textInput");
+    const output = document.getElementById("outputBox");
+    fireEvent.input(input, { target: { value: "AI4Devs" } });
+    expect(output.textContent).toBe("sveD4IA");
+  });
+
+  test("manual mode disables output and enables reverse button", () => {
+    const input = document.getElementById("textInput");
+    const output = document.getElementById("outputBox");
+    const autoMode = document.getElementById("autoMode");
+    const reverseBtn = document.getElementById("reverseBtn");
+
+    fireEvent.click(autoMode); // disable automatic mode
+    fireEvent.input(input, { target: { value: "hello" } });
+
+    expect(reverseBtn).not.toBeDisabled();
+    expect(output.textContent).toBe("Type something above");
+  });
+
+  test("clicking Reverse in manual mode reverses the text", () => {
+    const input = document.getElementById("textInput");
+    const reverseBtn = document.getElementById("reverseBtn");
+    const output = document.getElementById("outputBox");
+    const autoMode = document.getElementById("autoMode");
+
+    fireEvent.click(autoMode);
+    fireEvent.input(input, { target: { value: "hello" } });
+    fireEvent.click(reverseBtn);
+    expect(output.textContent).toBe("olleh");
+  });
+
+  test("copy adds to history and clears input", () => {
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: jest.fn(),
+      },
+    });
+
+    const input = document.getElementById("textInput");
+    const copyBtn = document.getElementById("copyBtn");
+    const output = document.getElementById("outputBox");
+    const historyList = document.getElementById("historyList");
+
+    fireEvent.input(input, { target: { value: "copyme" } });
+    fireEvent.click(copyBtn);
+
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("emypoc");
+    expect(input.value).toBe("");
+    expect(historyList.children.length).toBe(1);
+  });
+
+  test("clean history button clears all entries", () => {
+    const input = document.getElementById("textInput");
+    const copyBtn = document.getElementById("copyBtn");
+    const historyList = document.getElementById("historyList");
+
+    fireEvent.input(input, { target: { value: "first" } });
+    fireEvent.click(copyBtn);
+    fireEvent.input(input, { target: { value: "second" } });
+    fireEvent.click(copyBtn);
+
+    const cleanBtn = document.querySelector(".clear-history-btn");
+    fireEvent.click(cleanBtn);
+
+    expect(historyList.children.length).toBe(0);
+    const historyTitle = document.getElementById("historyTitleText");
+    expect(historyTitle.textContent).toBe("History must be written!");
+  });
+});
+```
+
+---
+
+### 3. ✅ `package.json` final
+
+Asegurate de tener esto también:
+
+```json
+{
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^6.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom"
+  }
+}
+```
+
+---
+
+Con eso todo debería funcionar perfecto. ¿Querés que te lo empaquete listo para correr con los tests incluidos?
