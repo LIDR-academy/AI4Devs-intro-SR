@@ -1,11 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reverse String</title>    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse String ES</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --bg: #f3f4f6;
+      --white: #fff;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --radius: 1rem;
+      --transition: 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+      color: #222;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--primary);
+      color: var(--white);
+      padding: 2.5rem 1rem 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.3rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    header p {
+      margin: 0.7rem 0 0 0;
+      font-size: 1.1rem;
+      opacity: 0.93;
+      font-weight: 400;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 3rem 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      width: 100%;
+      margin-bottom: 2rem;
+      transition: box-shadow var(--transition);
+    }
+    .card:focus-within, .card:hover {
+      box-shadow: 0 4px 24px rgba(79,70,229,0.13);
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 0.6rem;
+      outline: none;
+      transition: border-color var(--transition);
+      background: #f9fafb;
+    }
+    input[type="text"]:focus {
+      border-color: var(--primary-light);
+      background: #fff;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1rem;
+      user-select: none;
+      color: #444;
+    }
+    input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 1.1em;
+      height: 1.1em;
+    }
+    .output {
+      font-size: 1.4rem;
+      min-height: 2.2rem;
+      margin-bottom: 1.2rem;
+      color: #222;
+      background: #f3f4f6;
+      border-radius: 0.5rem;
+      padding: 0.7rem 1rem;
+      transition: color var(--transition), opacity var(--transition), background var(--transition);
+      word-break: break-word;
+      letter-spacing: 0.02em;
+    }
+    .actions {
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      margin-bottom: 0.2rem;
+    }
+    button {
+      padding: 0.7rem 1.3rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--primary-light);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: background var(--transition), transform var(--transition);
+      outline: none;
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .feedback {
+      color: #22c55e;
+      font-size: 0.97rem;
+      margin-left: 0.5rem;
+      transition: opacity var(--transition);
+    }
+    /* Historial */
+    .history-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.3rem 1.2rem 1.2rem 1.2rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      transition: box-shadow var(--transition);
+    }
+    .history-card h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.18rem;
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .history-list {
+      max-height: 260px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 0.2rem;
+      border-bottom: 1px solid #f1f1f1;
+      gap: 0.7rem;
+      animation: fadeIn 0.4s;
+    }
+    .history-item:last-child {
+      border-bottom: none;
+    }
+    .history-item code {
+      font-size: 1.05rem;
+      background: #f3f4f6;
+      border-radius: 0.4rem;
+      padding: 0.2rem 0.6rem;
+      color: #333;
+      word-break: break-word;
+      font-family: 'Fira Mono', 'Consolas', monospace;
+    }
+    .history-actions {
+      display: flex;
+      gap: 0.3rem;
+    }
+    .history-actions button {
+      padding: 0.4rem 0.7rem;
+      font-size: 1rem;
+      background: #e0e7ff;
+      color: var(--primary);
+      border-radius: 0.4rem;
+      box-shadow: none;
+      border: none;
+      transition: background var(--transition), color var(--transition);
+    }
+    .history-actions button:hover {
+      background: var(--primary-light);
+      color: #fff;
+    }
+    .inverted::before {
+      content: '⚡';
+      margin-right: 0.3rem;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1.2rem 0.2rem 2rem 0.2rem;
+        max-width: 100vw;
+      }
+      .card, .history-card {
+        padding: 1.1rem 0.7rem 1rem 0.7rem;
+      }
+      .output {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.7rem;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
 </head>
 <body>
-<script src="script.js"></script>
+  <header>
+    <h1>Reverse String ES</h1>
+    <p>Invierte tus cadenas de texto en un clic</p>
+  </header>
+  <main>
+    <section class="card" tabindex="0">
+      <form class="input-group" onsubmit="return false;">
+        <input type="text" id="textInput" placeholder="Introduce una cadena" title="Introduce una cadena" aria-label="Campo de texto" maxlength="200" autofocus />
+        <label>
+          <input type="checkbox" id="autoMode" />
+          Modo automático
+        </label>
+        <div id="output" class="output" aria-live="polite"></div>
+        <div class="actions">
+          <button id="reverseBtn" type="button">Invertir</button>
+          <button id="copyBtn" type="button" disabled>📋 Copiar</button>
+          <span id="copyFeedback" class="feedback" style="display:none;">✅ Copiado</span>
+        </div>
+      </form>
+    </section>
+    <section class="history-card" tabindex="0">
+      <h2>Historial</h2>
+      <ul id="historyList" class="history-list"></ul>
+    </section>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
