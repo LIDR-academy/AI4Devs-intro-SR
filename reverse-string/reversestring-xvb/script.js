@@ -3,14 +3,18 @@
 const inputText = document.getElementById('inputText');
 const autoMode = document.getElementById('autoMode');
 const historyList = document.getElementById('historyList');
+const reversedOutput = document.getElementById('reversedOutput');
 
 const state = {
-    lastManualInput: '',
     history: []
 };
 
 function reverseString(str) {
     return str.split('').reverse().join('');
+}
+
+function updateOutput(original, reversed) {
+    reversedOutput.textContent = `Original: ${original} | Reversed: ${reversed}`;
 }
 
 function updateInput(value) {
@@ -36,7 +40,7 @@ function addToHistory(original, reversed) {
         copyToClipboard(reversed);
         if (autoMode.checked && !state.history.includes(reversed)) {
             state.history.push(reversed);
-            addToHistory(original, reversed);
+            renderHistoryItem(original, reversed);
         }
     };
 
@@ -52,27 +56,29 @@ function addToHistory(original, reversed) {
     historyList.appendChild(item);
 }
 
-inputText.addEventListener('input', (e) => {
-    if (autoMode.checked) {
-        // Only reverse the most recent manual input, not the reversed result
-        const current = e.target.value;
-        const reversed = reverseString(current);
+function renderHistoryItem(original, reversed) {
+    if (!state.history.includes(reversed)) {
+        state.history.push(reversed);
+        addToHistory(original, reversed);
+    }
+}
 
-        // Prevent infinite loop by not updating if text is already reversed
-        if (current !== reverseString(state.lastManualInput)) {
-            state.lastManualInput = current;
-            updateInput(reversed);
-        }
-    } else {
-        state.lastManualInput = e.target.value;
+let lastProcessedInput = '';
+
+inputText.addEventListener('input', () => {
+    const current = inputText.value;
+    if (autoMode.checked && current !== lastProcessedInput) {
+        const reversed = reverseString(current);
+        lastProcessedInput = reversed;
+        updateOutput(current, reversed);
     }
 });
 
 inputText.addEventListener('change', () => {
-    const original = state.lastManualInput;
-    const reversed = reverseString(original);
+    const original = reverseString(inputText.value);
+    const reversed = inputText.value;
     if (!autoMode.checked) {
-        updateInput(reversed);
-        addToHistory(original, reversed);
+        updateOutput(original, reversed);
+        renderHistoryItem(original, reversed);
     }
 });
