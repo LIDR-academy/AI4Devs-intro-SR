@@ -5,6 +5,7 @@ const autoMode = document.getElementById('autoMode');
 const historyList = document.getElementById('historyList');
 
 const state = {
+    lastManualInput: '',
     history: []
 };
 
@@ -33,9 +34,9 @@ function addToHistory(original, reversed) {
     copyButton.textContent = 'Copy';
     copyButton.onclick = () => {
         copyToClipboard(reversed);
-        // Save to history on copy if auto mode
         if (autoMode.checked && !state.history.includes(reversed)) {
             state.history.push(reversed);
+            addToHistory(original, reversed);
         }
     };
 
@@ -51,15 +52,24 @@ function addToHistory(original, reversed) {
     historyList.appendChild(item);
 }
 
-inputText.addEventListener('input', () => {
+inputText.addEventListener('input', (e) => {
     if (autoMode.checked) {
-        const reversed = reverseString(inputText.value);
-        updateInput(reversed);
+        // Only reverse the most recent manual input, not the reversed result
+        const current = e.target.value;
+        const reversed = reverseString(current);
+
+        // Prevent infinite loop by not updating if text is already reversed
+        if (current !== reverseString(state.lastManualInput)) {
+            state.lastManualInput = current;
+            updateInput(reversed);
+        }
+    } else {
+        state.lastManualInput = e.target.value;
     }
 });
 
 inputText.addEventListener('change', () => {
-    const original = inputText.value;
+    const original = state.lastManualInput;
     const reversed = reverseString(original);
     if (!autoMode.checked) {
         updateInput(reversed);
