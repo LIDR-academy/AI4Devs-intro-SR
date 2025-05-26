@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reverse String</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    h1 {
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: 100%;
+      font-size: 1.2em;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #reverse-btn {
+      background-color: #007bff;
+      color: white;
+    }
+    #copy-btn {
+      background-color: #6c757d;
+      color: white;
+    }
+    .history-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    .history-buttons button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Reverse String</h1>
+
+  <input type="text" id="inputText" placeholder="Hello, welcome to AI4Devs" />
+  <br>
+  <button id="reverse-btn">Reverse 🔁</button>
+  <br>
+  <p id="outputText"></p>
+  <button id="copy-btn">Copy 📋</button>
+
+  <div style="margin-top: 20px;">
+    <label>
+      <input type="checkbox" id="autoMode" checked />
+      Auto modo
+    </label>
+    <div id="history"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
