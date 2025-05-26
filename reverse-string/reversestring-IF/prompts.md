@@ -1,12 +1,30 @@
 #### ChatGPT 4o has been used to complete the exercise
 
+# Conclusion
+
+Es la primera vez que uso inteligencia artificial para crear una app desde cero, y fue una experiencia divertida, con sorpresas y frustraciones. El resultado final es una app que se ve y funciona muy bien, y todo con muy poco esfuerzo.
+
+Me frustré un poco porque, tras hacer un prompt inicial bastante detallado, obtuve un muy buen resultado en un tiempo insignificante. Luego quise sumar mejoras y nuevas funcionalidades, y la experiencia no fue tan buena: también introduje errores o rompí partes de la interfaz. Al pedirle mejoras, tuve la sensación de que perdió el contexto del prompt inicial y modificó funcionalidades que ya estaban bien.
+
+Como desarrollador FE, tengo los conocimientos necesarios para entender el código e identificar rápidamente los problemas. Sabía que podía solucionarlos en minutos, pero como estaba probando el flujo de trabajo por medio de prompts, seguí consultándole. Le pedí tres veces que resolviera ciertos errores, pero no fue capaz, hasta que le señalé puntualmente los errores y prácticamente le “dicté” la solución.
+
+El código generado está muy bien estructurado y es fácil de leer. Encontré algunos puntos de mejora en cuanto a performance y reutilización, pero no deja de ser un producto muy sólido, logrado con muy poco esfuerzo.
+
+Quizas no debí mezclar prompts en Ingles y Español
+
+## TL/DR
+
+#### Quizas en vez de pedirle correcciones, hubiera sido mejor reescribir la peticion inicial mejor detallada. Con un buen prompt inicial, podes tener el 95% del problema resulto en poco tiempo.
+
+---
+
 # Initial prompt
 
-# Reverse string app
+## Reverse string app
 
 I have a javascript seed project based on 2 files `index.html` (attached) and `script.js` from which I need to create an application that reverse the typed string. i.e.: if user type `AI4Devs`, it should return `sveD4IA`.
 
-## The main features includes:
+## The main features include:
 
 - A "Reverse" button that will reverse the content of the text input when clicked (button will disabled when automatic mode is enabled).
 - A checkbox to enable/disable "Automatic mode" (should be enable by default). When enabled, the app will automatically (on every key stroke) reverse input text and show it on the output box. When disabled, the app will erase output box, and "Reverse" button will be enabled so that when user clicks on it, the app will generate and show the reversed string on output.
