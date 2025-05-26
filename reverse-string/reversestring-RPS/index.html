@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String RPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        button {
+            margin: 0.25rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            background: #f2f2f2;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        .preview {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<h1>Reverse String RPS</h1>
+<input type="text" id="inputText" placeholder="Escribe aquí tu cadena...">
+<div id="preview" class="preview"></div>
+
+<label>
+    <input type="checkbox" id="autoMode">
+    Modo automático
+</label>
+<br>
+<button id="reverseBtn">Invertir</button>
+
+<h2>Historial</h2>
+<ul id="historyList"></ul>
+
+<script src="script.js"></script>
+</body>
+</html>
