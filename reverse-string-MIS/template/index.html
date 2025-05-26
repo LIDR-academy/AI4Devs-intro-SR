@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 2rem;
+        }
+
+        .input-container {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            margin: 1rem 0;
+        }
+
+        #reverseBtn {
+            background-color: #3b82f6;
+        }
+
+        #reverseBtn:hover {
+            background-color: #2563eb;
+        }
+
+        #copyBtn {
+            background-color: #6b7280;
+        }
+
+        #copyBtn:hover {
+            background-color: #4b5563;
+        }
+
+        .result {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #1a1a1a;
+        }
+
+        .auto-reverse {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .history-section {
+            margin-top: 2rem;
+            border-top: 2px solid #e5e7eb;
+            padding-top: 1rem;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .history-text {
+            flex-grow: 1;
+            font-size: 1.1rem;
+        }
+
+        .history-button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .history-copy {
+            background-color: #6b7280;
+        }
+
+        .history-reload {
+            background-color: #3b82f6;
+        }
+
+        .history-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reverse String</h1>
+    <div class="input-container">
+        <input type="text" id="inputText" placeholder="Enter text to reverse...">
+    </div>
+    
+    <div class="auto-reverse">
+        <input type="checkbox" id="autoReverse">
+        <label for="autoReverse">Auto-reverse mode</label>
+    </div>
+
+    <button id="reverseBtn" class="button">
+        Reverse <span>🔄</span>
+    </button>
+    
+    <div class="result" id="result"></div>
+    
+    <button id="copyBtn" class="button" style="display: none;">
+        Copy <span>📋</span>
+    </button>
+
+    <div class="history-section">
+        <h2 class="history-title">History</h2>
+        <div id="historyList"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
