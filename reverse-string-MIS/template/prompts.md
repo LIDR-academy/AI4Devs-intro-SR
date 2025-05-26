@@ -19,13 +19,13 @@
    - [Feature Implementation Attempts](#feature-implementation-attempts)
      - [History Feature](#attempt-4-history-feature)
      - [Auto-Reverse Mode](#attempt-5-auto-reverse-mode)
-   - [Common Patterns in Failed Prompts](#common-patterns-in-failed-prompts)
-   - [How to Write Better Prompts](#how-to-write-better-prompts)
 
 3. [Chatbot Used](#chatbot-used)
 
 4. [Corrections and Learnings](#corrections-and-learnings)
-
+    - [Common Patterns in Failed Prompts](#common-patterns-in-failed-prompts)
+    - [How to Write Better Prompts](#how-to-write-better-prompts)
+    
 ## Successful Prompts
 
 ### Initial Request
@@ -103,6 +103,14 @@
 - **Lesson Learned:** Be explicit about feature behavior and interactions
 - **Better Approach:** "Add an auto-reverse checkbox that, when enabled, automatically reverses text as it's typed, but only saves to history on copy"
 
+## Chatbot Used
+Claude Sonnet 3.5
+
+## Corrections and Learnings
+1. At the beginning, I made the entire request without specifying that I should separate the HTML from the JS.
+2. I fixed it once I realized the response only gave me the HTML code and mixed the JS, so I specified that each file should be created separately.
+3. I learned that it's not about creating the prompt the first time and that it should be refined, being as specific as possible and also verifying that the code and functionality go hand in hand as expected.
+
 ### Common Patterns in Failed Prompts
 1. Vague or incomplete requirements
 2. Lack of reference to provided materials
@@ -117,11 +125,3 @@
 4. Explain component interactions
 5. Specify exact behaviors
 6. Keep technology requirements clear
-
-## Chatbot Used
-Claude Sonnet 3.5
-
-## Corrections and Learnings
-1. At the beginning, I made the entire request without specifying that I should separate the HTML from the JS.
-2. I fixed it once I realized the response only gave me the HTML code and mixed the JS, so I specified that each file should be created separately.
-3. I learned that it's not about creating the prompt the first time and that it should be refined, being as specific as possible and also verifying that the code and functionality go hand in hand as expected.
