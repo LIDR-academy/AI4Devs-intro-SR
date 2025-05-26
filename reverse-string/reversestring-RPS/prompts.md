@@ -2,6 +2,8 @@
 
 **Tu solicitud original:**
 
+Eres un experto desarrollador en Javascript y HTML, con nociones avanzadas de gestión de memoria JS y desarrollo de soluciones a medida.
+
 Quiero que codifiques una aplicación web cuya principal funcionalidad sea invertir el orden de una cadena de texto. La página web tendrá un input de texto en el que el usuario escribirá una cadena, y al clicar sobre el botón "Invertir" se ejecutará la inversión de la cadena. Todas las cadenas que se vayan invirtiendo se guardarán y se mostrarán en un historial debajo del input. Adicionalmente, el programa debe tener un checkbox de "Modo automático": si está chequeado, el app automáticamente va reversando la cadena y sólo pasa al historial cuando el usuario da click en el botón "Invertir".
 
 El front de la aplicación quiero que lo generes en un único archivo html (index.html) y toda la lógica quiero que la generes en un archivo script.js.
