@@ -29,6 +29,6 @@ Le dije que adelante
 
 ChatGpt me pidió Reemplazar la función renderPreview
 
-### Prompt 5 (final)
+### Prompt 7 (final)
 Genera el código completo para `index.html` y `script.js` para que cumpla con todos los requisitos del ejercicio: input de texto, botón de invertir, historial dinámico con copiar/recargar, modo automático con checkbox, y todo almacenado solo en memoria. Además, incluye estilos mínimos. 
 
