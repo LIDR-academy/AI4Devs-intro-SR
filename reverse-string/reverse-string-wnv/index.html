@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String</title>   
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <h1>Reverse String App</h1>
+    <input type="text" id="inputString" placeholder="Escribe una cadena">
+    <button id="reverseBtn">Invertir cadena</button>
+    <label>
+        <input type="checkbox" id="autoMode" />
+        Modo automático
+    </label>
+
+    <h2>Historial:</h2>
+    <ul id="historyList"></ul>
+
+    <script type="module" src="history.js"></script>
+    <script type="module" src="script.js"></script>
+    <script type="module">
+        import { reverseString } from './script.js';
+        import { addToHistory, updateHistoryList } from './history.js';
+
+        document.getElementById('reverseBtn').onclick = () => {
+          const input = document.getElementById('inputString').value;
+          if (input) {
+            addToHistory(input); // Agregamos al historial
+            if (!document.getElementById('autoMode').checked) {
+              document.getElementById('inputString').value = reverseString(input);
+            }
+          }
+        };
+
+        document.getElementById('autoMode').onchange = (e) => {
+          const isAutoMode = e.target.checked;
+          if (isAutoMode) {
+            document.getElementById('inputString').addEventListener('input', () => {
+              const input = document.getElementById('inputString').value;
+              if (input) {
+                addToHistory(input);
+              }
+            });
+          }
+        };
+    </script>
+</body>
+</html>
