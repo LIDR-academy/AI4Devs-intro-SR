@@ -1,6 +1,8 @@
 # Prompts reversestring-RPS
 
-**Tu solicitud original:**
+## Herramienta utilizada: ChatGPT 4o
+
+### Hilo de solicitudes:
 
 Eres un experto desarrollador en Javascript y HTML, con nociones avanzadas de gestión de memoria JS y desarrollo de soluciones a medida.
 
