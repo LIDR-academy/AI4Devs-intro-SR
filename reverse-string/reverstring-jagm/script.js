@@ -157,6 +157,7 @@ function initializeApp() {
     }
   });
 
+  // Event listener para el checkbox
   autoModeCheckbox.addEventListener("change", function () {
     if (this.checked) {
       updateResult();
@@ -166,6 +167,20 @@ function initializeApp() {
       resultDisplay.style.cursor = "default";
       resultDisplay.title = "";
     }
+  });
+
+  // Event listener adicional para el elemento visual personalizado del checkbox
+  const checkboxCustom = document.querySelector(".checkbox-custom");
+  checkboxCustom.addEventListener("click", function (e) {
+    // Prevenir que el clic se propague y cause doble toggle
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Toggle manual del checkbox
+    autoModeCheckbox.checked = !autoModeCheckbox.checked;
+
+    // Disparar el evento change manualmente
+    autoModeCheckbox.dispatchEvent(new Event("change"));
   });
 
   // Agregar funcionalidad de clic en el resultado para copiar (solo en modo automático)
