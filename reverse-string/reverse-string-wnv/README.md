@@ -73,3 +73,11 @@ Para ejecutar la aplicación en tu navegador y evitar problemas de CORS con arch
     ```bash
     http-server
     ```
+
+### 4. Ejecutar las pruebas
+
+El proyecto usa **Jest** para las pruebas unitarias. Puedes ejecutar las pruebas con:
+
+```bash
+npm test
+
