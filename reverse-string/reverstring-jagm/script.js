@@ -152,11 +152,7 @@ function initializeApp() {
       if (!autoModeCheckbox.checked) {
         updateResult();
       }
-
-      // Solo agregar al historial si hay texto, SIN copiar al portapapeles
-      if (textInput.value.trim() !== "" && currentReversedText !== "") {
-        addToHistory(textInput.value, currentReversedText);
-      }
+      // Al presionar Enter solo se invierte el texto, NO se agrega al historial
     }
   });
 
