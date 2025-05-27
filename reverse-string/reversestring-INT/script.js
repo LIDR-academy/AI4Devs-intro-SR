@@ -1,170 +1,137 @@
 const textInput = document.getElementById('textInput');
-const reverseButton = document.getElementById('reverseButton');
+const autoMode = document.getElementById('autoMode');
+const invertBtn = document.getElementById('invertBtn');
+const resultSection = document.getElementById('resultSection');
+const resultText = document.getElementById('resultText');
+const copyResultBtn = document.getElementById('copyResultBtn');
+const historySection = document.getElementById('historySection');
 const historyList = document.getElementById('historyList');
 
-const historyArray = [];
+let currentInverted = '';
+let history = [];
 
-function reverseString(str) {
+// Utility: invert string
+function invertString(str) {
     return str.split('').reverse().join('');
 }
 
-function isAnyAutoModeOn() {
-    return historyArray.some(entry => entry.auto);
+// Update result display
+function updateResultDisplay(text) {
+    currentInverted = text;
+    resultText.textContent = text;
+
+    if (text) {
+        resultSection.style.display = 'block';
+        copyResultBtn.style.display = 'inline-block';
+    } else {
+        resultSection.style.display = 'none';
+        copyResultBtn.style.display = 'none';
+    }
 }
 
-function updateHistoryList() {
+// Update history display
+function updateHistoryDisplay() {
+    if (history.length === 0) {
+        historySection.style.display = 'none';
+        return;
+    }
+
+    historySection.style.display = 'block';
     historyList.innerHTML = '';
 
-    historyArray.forEach((entry) => {
+    history.forEach((item, index) => {
         const li = document.createElement('li');
+        li.className = 'history-item';
 
         const span = document.createElement('span');
-        span.textContent = entry.text + ' ';
+        span.className = 'history-text';
+        span.textContent = item;
 
-        const autoCheckbox = document.createElement('input');
-        autoCheckbox.type = 'checkbox';
-        autoCheckbox.checked = entry.auto;
-        autoCheckbox.addEventListener('change', () => {
-            entry.auto = autoCheckbox.checked;
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'history-buttons';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = 'Copiar';
+        copyBtn.setAttribute('aria-label', `Copiar entrada ${index + 1}`);
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(item).then(() => {
+                showCopyConfirmation(copyBtn);
+            });
         });
 
-        const autoLabel = document.createElement('label');
-        autoLabel.textContent = 'Auto';
-
-        const copyButton = document.createElement('button');
-        copyButton.textContent = 'Copiar';
-        copyButton.addEventListener('click', () => {
-            if (entry.text.trim() === '') return;
-
-            navigator.clipboard.writeText(entry.text)
-                .then(() => {
-                    if (isAnyAutoModeOn()) {
-                        if (!historyArray.some(e => e.text === textInput.value) && textInput.value.trim() !== '') {
-                            historyArray.push({ text: textInput.value, auto: true });
-                            updateHistoryList();
-                            textInput.value = '';
-                            originalInput = '';
-                        }
-                    }
-                })
-                .catch(err => console.error('Error al copiar: ', err));
+        const reloadBtn = document.createElement('button');
+        reloadBtn.textContent = 'Recargar';
+        reloadBtn.setAttribute('aria-label', `Recargar entrada ${index + 1}`);
+        reloadBtn.addEventListener('click', () => {
+            textInput.value = item;
+            handleInput();
         });
 
-        const reloadButton = document.createElement('button');
-        reloadButton.textContent = 'Recargar';
-        reloadButton.addEventListener('click', () => {
-            textInput.value = entry.text;
-            originalInput = entry.text;
-        });
+        btnGroup.appendChild(copyBtn);
+        btnGroup.appendChild(reloadBtn);
 
         li.appendChild(span);
-        li.appendChild(autoCheckbox);
-        li.appendChild(autoLabel);
-        li.appendChild(copyButton);
-        li.appendChild(reloadButton);
-
+        li.appendChild(btnGroup);
         historyList.appendChild(li);
     });
 }
 
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-    };
+// Show confirmation message next to button
+function showCopyConfirmation(button) {
+    let confirmSpan = document.createElement('span');
+    confirmSpan.textContent = '¡Copiado!';
+    confirmSpan.className = 'copy-confirm';
+
+    button.parentNode.appendChild(confirmSpan);
+
+    setTimeout(() => {
+        confirmSpan.remove();
+    }, 1500);
 }
 
-let isUpdating = false;
-let originalInput = '';  // Texto sin invertir, siempre limpio y puro
+// Handle input changes
+function handleInput() {
+    if (autoMode.checked) {
+        const inverted = invertString(textInput.value);
+        updateResultDisplay(inverted);
+    }
+}
 
-const doAutoInvert = debounce(() => {
-    if (!isAnyAutoModeOn() || isUpdating) return;
+// Handle manual invert
+function handleManualInvert() {
+    const inverted = invertString(textInput.value);
+    updateResultDisplay(inverted);
+}
 
-    if (originalInput.trim() === '') {
-        isUpdating = true;
+// Handle copy and save to history
+function handleCopyResult() {
+    if (currentInverted) {
+        navigator.clipboard.writeText(currentInverted);
+
+        // Only add if not already in history
+        if (!history.includes(currentInverted)) {
+            history.unshift(currentInverted);
+            updateHistoryDisplay();
+        }
+
+        // Clear input and result
         textInput.value = '';
-        isUpdating = false;
-        return;
+        updateResultDisplay('');
     }
+}
 
-    // Separamos tokens para respetar espacios
-    const tokens = originalInput.match(/\S+|\s+/g) || [];
-    // Solo palabras sin espacios
-    const words = tokens.filter(token => token.trim() !== '');
-
-    // Invertimos palabras y luego invertimos el orden
-    const invertedWords = words.map(reverseString).reverse();
-
-    // Reconstruimos respetando espacios
-    let wordIndex = 0;
-    const resultTokens = tokens.map(token => {
-        if (token.trim() === '') {
-            return token; // espacios intactos
-        } else {
-            return invertedWords[wordIndex++];
-        }
-    });
-
-    isUpdating = true;
-    textInput.value = resultTokens.join('');
-    isUpdating = false;
-}, 300);
-
-textInput.addEventListener('input', (e) => {
-    if (isUpdating) return;
-
-    const currentVal = e.target.value;
-
-    // Detectamos si el último caracter es espacio
-    const lastChar = currentVal.slice(-1);
-
-    if (lastChar === ' ') {
-        // Actualizamos originalInput sin invertir ni cambiar input visible
-        // Para que el espacio no invierta nada ni cambie la vista
-        originalInput += ' '; // añadimos espacio al texto original
-        // No actualizamos textInput.value para que no cambie la vista
-    } else {
-        // Aquí añadimos el último carácter a originalInput
-        // Si el usuario borró algo, actualizamos originalInput al completo para sincronizar
-        if (currentVal.length < originalInput.length) {
-            // El usuario borró caracteres, actualizamos originalInput completo
-            originalInput = currentVal;
-        } else {
-            // Añadimos el nuevo carácter al originalInput
-            originalInput += lastChar;
-        }
-
-        // Aplicamos inversión automática usando originalInput limpio
-        doAutoInvert();
-    }
+// Event listeners
+textInput.addEventListener('input', handleInput);
+autoMode.addEventListener('change', () => {
+    invertBtn.style.display = autoMode.checked ? 'none' : 'inline-block';
+    handleInput();
 });
 
-// Botón manual
-reverseButton.addEventListener('click', () => {
-    if (isUpdating) return;
+invertBtn.addEventListener('click', handleManualInvert);
+copyResultBtn.addEventListener('click', handleCopyResult);
 
-    const words = originalInput.match(/\S+/g) || [];
-    const invertedWordsManual = words.map(reverseString).reverse();
-
-    const tokens = originalInput.match(/\S+|\s+/g) || [];
-    let wordIndex = 0;
-    const resultTokens = tokens.map(token => {
-        if (token.trim() === '') {
-            return token;
-        } else {
-            return invertedWordsManual[wordIndex++];
-        }
-    });
-
-    const invertedText = resultTokens.join('');
-
-    textInput.value = invertedText;
-
-    if (!isAnyAutoModeOn()) {
-        historyArray.push({ text: invertedText, auto: true });
-        updateHistoryList();
-        textInput.value = '';
-        originalInput = '';
-    }
-});
+// Initialize
+invertBtn.style.display = autoMode.checked ? 'none' : 'inline-block';
+copyResultBtn.style.display = 'none';
+resultSection.style.display = 'none';
+historySection.style.display = 'none';

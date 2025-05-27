@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Reverse String App</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reverse String App</title>    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Reverse String App</h1>
+    <main class="container">
+        <h1>Reverse String App</h1>
 
-    <input type="text" id="textInput" placeholder="Escribe tu texto aquí">
-    <button id="reverseButton">Invertir texto</button>
+        <div class="input-section">
+            <label for="textInput">Texto:</label>
+            <input type="text" id="textInput" aria-label="Texto a invertir">
+            
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="autoMode">
+                    Modo Automático
+                </label>
+                <button id="invertBtn">Invertir</button>
+            </div>
+        </div>
 
-    <h2>Historial</h2>
-    <ul id="historyList">
-        <!-- Entradas dinámicas -->
-    </ul>
+        <div id="resultSection" class="result-section" aria-live="polite">
+            <h2>Resultado</h2>
+            <div id="resultText" class="result-text"></div>
+            <button id="copyResultBtn">Copiar</button>
+        </div>
+
+        <section id="historySection" class="history-section">
+            <h2>Historial</h2>
+            <ul id="historyList" class="history-list"></ul>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

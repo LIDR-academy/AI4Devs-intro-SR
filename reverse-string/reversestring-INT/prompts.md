@@ -1,26 +1,18 @@
-**Nombre del chatbot usado:**  
-GPT-4-o (OpenAI)
+# Prompt
+Modelo: gpt-4o
 
 ---
 
-Voy a implementar por partes la solución que se pide, para depurarla más fácilmente.
+Te paso el HTML base para una app que invierte cadenas y mantiene un historial (en memoria, no localStorage). Sobre esta base quiero que desarrolles la lógica en JS, y también un CSS moderno y accesible.
 
-## Prompt 1: Estructura básica
+## HTML base:
 
-```
-Necesito crear una microaplicación en HTML + JavaScript que tenga:
-- Un campo de entrada de texto (input)
-- Un botón que, al hacer clic, invierta el texto ingresado
-- Una lista debajo que muestre el historial de cadenas invertidas durante la sesión (solo memoria, no localStorage).
-
-Por favor genera solo el archivo HTML con estructura básica (no CSS por ahora), incluyendo los elementos mencionados, y dejando los ganchos (clases o IDs) listos para conectar con JavaScript.
-
-Tienes como base el siguiente código:
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reverse String</title>    
 </head>
 <body>
@@ -28,118 +20,85 @@ Tienes como base el siguiente código:
 </body>
 </html>
 ```
+
+## Funcionalidad general
+- Hay un campo de entrada de texto (input).
+- Hay un checkbox global llamado “Modo Automático”.
+- Hay un botón manual llamado “Invertir”.
+- Debajo hay una lista de historial que se guarda sólo en memoria JS (no uses localStorage).
+
+## Cómo funciona el modo automático
+- Si el checkbox está activado → cada vez que escribes algo en el input, el texto se invierte automáticamente en tiempo real y se muestra en un área visible (un div o similar), pero no se guarda en el historial aún.
+
+-Si el checkbox está desactivado → escribes el texto, y sólo cuando haces clic en el botón “Invertir” se genera la versión invertida y se muestra en el área visible (pero tampoco se guarda en el historial aún).
+
+## Cómo funciona el historial
+El historial solo guarda una cadena invertida cuando haces clic en el botón “Copiar” del resultado visible.
+
+## Flujo típico:
+
+1. Escribes texto.
+
+2. Se invierte (automáticamente o manualmente según modo).
+
+3. Ves el resultado invertido.
+
+4. Haces clic en el botón “Copiar” → se copia el texto al portapapeles y se guarda esa cadena invertida en el historial.
+
+## Qué muestra cada entrada del historial
+Cada ítem en la lista de historial debe mostrar:
+
+- El texto invertido.
+
+- Un botón “Copiar” → copia esa cadena invertida al portapapeles.
+
+- Un botón “Recargar” → carga esa cadena invertida nuevamente en el campo de texto para poder editarla o invertirla otra vez.
+
+- No necesita su propio checkbox, ya que el modo automático es global.
+
+## Reglas y UX mejorada
+- Si el modo automático está activado, el botón “Invertir” no debe aparecer.
+
+- El botón “Copiar” para el resultado invertido no debe aparecer si no hay texto invertido visible.
+
+- Si el historial está vacío, no mostrar el título “Historial” ni la lista.
+
+- Usa colores con buen contraste, tipografía legible y estilos visibles para focus y hover en botones e inputs.
+
+- El diseño debe ser responsivo usando flexbox o grid.
+
+- Añade transiciones suaves en interacciones.
+
+- El historial y la lista deben manejar correctamente la accesibilidad (atributos aria donde corresponda).
+
+## Entrega esperada
+- Código HTML (con los elementos básicos y estructura).
+
+- Código CSS moderno, limpio y accesible (sin cambiar el HTML base, sólo estilos).
+
+- Código JS que implemente toda la lógica descrita, manteniendo el estado en memoria.
+
+Siguiendo toda esta información devuelvemelo los archivos con la solución.
+
 ---
 
-## Prompt 2: Lógica JS para invertir texto y guardar historial
-
-```
-Ahora escribe el código JavaScript que:
-- Al hacer clic en el botón, toma el texto del input, lo invierte, lo muestra debajo en la lista de historial y guarda ese valor en un array en memoria.
-- Cada vez que se agrega una nueva cadena al historial, se actualiza la lista mostrada.
-
-No uses localStorage ni almacenamiento persistente, solo memoria.
-```
----
-
-## Prompt 3: Agregar botones extra por entrada del historial
-
-```
-Añade a cada entrada de la lista del historial:
-- Un botón que copie esa cadena invertida al portapapeles.
-- Un botón que recargue esa cadena en el input para poder invertirla de nuevo si se quiere.
-
-Modifícame los archivos HTML y JS anteriores para conseguir esta nueva funcionalidad.
+He detectado algunas cosas a mejorar por lo que le escribo otro prompt
+```text
+El titulo resultado no quiero que salga si no contiene nada y una vez pulse en copiar y se vaya al historial quiero dejar limpio el input
 ```
 
----
-## Prompt 4: Checkbox de modo automático
+Otro pequeño detalle más
 ```
-En cada entrada del historial, agrega un checkbox de modo automático activado. Si está seleccionado, la app invierte automáticamente el texto ingresado, pero solo lo guarda en el historial cuando el usuario hace clic en "copiar".
-
-Nota: El historial debe mantenerse en memoria (JS), no uses localStorage.
+Al pulsar el copiar en el historial muestrame algo que confirme que se ha copiado correctamente
 ```
 
-#### Problemas detectados:
-
-- La inversión automática no funcionaba correctamente cuando una entrada estaba en modo "auto".
-
-- No guardaba en el historial al pulsar "copiar".
-
-
-## Prompt 5: Corrección del modo automático
-```
-La funcionalidad implementada del checkbox "auto" no es correcta, me inviertes todo cada vez que añado una letra por lo que no es correcto y en el caso de que algún checkbox "auto" esté seleccionado, entonces tienes que guardar en el historial pulsando en el botón "copiar" del historial y no en el de "revertir" del input.
-```
-
-Ahora no invierte automáticamente, pero el botón "copiar" funciona y guarda el valor.
-
-## Prompt 6: Habilitar inversión automática sin interferencias
-```
-Ahora no me lo invierte con el "auto" y necesito que lo haga, ya funciona la funcionalidad de guardar cuando pulsa en copiar.
-```
-
-Me ha creado una funcionalidad extra que no le he pedido, la voy a eliminar.
-
-## Prompt 7: Evitar inversión al pulsar Enter
-```
-No quiero que al pulsar la tecla intro me lo invierta
-```
-
-Se eliminó el siguiente código para evitar inversión con Enter:
+Podemos encontrar como fallo o no que nos guarde cadenas iguales en el historial, no es algo que se ha definido en las especificaciones, entendemos que no se pueden guardar cadenas iguales.
 
 ```
-// Evento keydown para invertir al pulsar Enter
-textInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && isAnyAutoModeOn()) {
-        e.preventDefault();
-        const val = textInput.value;
-        if (val) {
-            const inverted = reverseString(val);
-            lastInvertedValue = inverted;
-            textInput.value = inverted;
-        }
-    }
-});
-```
-
-## Prompt 8: Problemas al invertir varias palabras con pausas y espacios
-```
-Hay un problema al escribir varias palabras haciendo paradas entre ellas, ya que por ejemplo escribo hola y lo invierte aloh pero luego escribo mundo y me pone odnum hola, mientras debería ser odnum aloh, y que con los espacios tampoco se invierta.
-```
-
-## Prompt 9: Problema con orden de palabras invertidas y evitar guardar cadenas vacías
-```
-Ahora invierte bien las palabras pero no me las pone en el orden correcto ya que la primera palabra que escribo debe aparecer la última y la última la primera, luego si está vacío y le doy a copiar que no me ponga una entrada vacía en el historial
-```
-
-## Prompt 10: Evitar copiado o aviso al intentar copiar cadena vacía
-```
-No invierte correctamente las palabras y "si intentas copiar una entrada vacía, te avisa y no la agrega al historial" prefiero que no la copie ni avise, y al borrar el input y volver a escribir ni invierte la palabra ni las palabras.
-```
-
-## Prompt 11: Problema final con inversión incorrecta cuando escribo todo seguido
-```
-Si pongo que tal estas, me pone euq lat satse y debería ser satse lat euq, esto ocurre en el caso de que lo escriba todo seguido y de forma con el "auto". Y le paso el código de HTML y JS de la app.
-```
-
-## Solución definitiva
-Después de varios intentos, descubrí que:
-
-- El problema era que se invertía dos veces la palabra junto con los espacios, y sin ellos tampoco lo hacía bien.
-
-- La lógica debía manejar la inversión internamente sin mostrarla directamente en la vista del usuario mientras escribe.
-
-```
-Cuando pongo el espacio quiero que me simules por detrás que lo inviertas pero no quiero verlo en el input
-```
-
-## Extra: Estilos CSS
-```
-Crea un CSS moderno, limpio y accesible para esta app. Usa colores con buen contraste, tipografía legible, estilos claros para focus y hover en botones e inputs, diseño responsivo con flexbox o grid, y transiciones suaves. No cambies el HTML, solo el CSS.
+No quiero que guardes en el historial cadenas iguales
 ```
 
 ## Conclusión
-La práctica me ha enseñado que:
-- Hay que detallar muy bien la descripción de los problemas y los comportamientos esperados, incluyendo ejemplos claros de entradas y salidas.
-- Cuando aparecen errores, detallar exactamente qué está fallando y qué debería ocurrir facilita mucho la corrección.
-- Hay que pensar en posibles soluciones para resolver el problema y dárselos a la IA para que los implemente.
+- Comprobar y recopilar todos los requisitos de forma que estén escritos de una forma que no mezcle responsabilidades y deje cosas ambiguas, no podemos copiar y pegar el problema tal cual nos lo dan, sino analizar lo que se quiere hacer y el por qué.
+- Estén bien definidos y con ejemplos.
+- Explicarle detalladamente las funcionalidades.
