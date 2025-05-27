@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversor de Cadenas Avanzado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Inversor de Cadenas</h1>
+
+        <div class="input-section">
+            <input type="text" id="stringInput" placeholder="Introduce texto aquí...">
+            <button id="reverseButton">Invertir</button>
+        </div>
+
+        <div class="controls-section">
+            <label>
+                <input type="checkbox" id="autoModeCheckbox">
+                Modo Automático Activado
+            </label>
+        </div>
+
+        <div class="output-section">
+            <h2>Resultado:</h2>
+            <p id="reversedStringOutput">-</p>
+            <div class="output-buttons">
+                <button id="copyButton" disabled>Copiar</button>
+                <button id="reloadButton" disabled>Recargar en Input</button>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h2>Historial de Inversiones:</h2>
+            <ul id="historyList">
+                </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

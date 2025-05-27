@@ -1,0 +1,167 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea al inicio para scroll */
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#stringInput {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#stringInput:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.controls-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ecf0f1;
+    border-radius: 4px;
+}
+
+.controls-section label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95em;
+}
+
+#autoModeCheckbox {
+    margin-right: 8px;
+    transform: scale(1.1); /* Hace el checkbox un poco más grande */
+}
+
+.output-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+#reversedStringOutput {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #27ae60;
+    min-height: 1.5em; /* Evita que salte el layout */
+    word-wrap: break-word; /* Para cadenas largas */
+    background-color: #e8f8ef;
+    padding: 8px;
+    border-radius: 3px;
+    margin-top: 0;
+    margin-bottom: 15px; /* Espacio antes de los botones */
+}
+
+.output-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.output-buttons button {
+    flex-grow: 1; /* Los botones se expanden para ocupar espacio */
+}
+
+#copyButton {
+    background-color: #2ecc71;
+}
+#copyButton:hover:not(:disabled) {
+    background-color: #27ae60;
+}
+
+#reloadButton {
+    background-color: #f39c12;
+}
+#reloadButton:hover:not(:disabled) {
+    background-color: #e67e22;
+}
+
+
+.history-section ul {
+    list-style-type: none;
+    padding: 0;
+    max-height: 200px; /* Altura máxima con scroll */
+    overflow-y: auto; /* Scroll si el contenido excede */
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.history-section li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fff;
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.history-section li:last-child {
+    border-bottom: none;
+}
+
+.history-section li:nth-child(odd) {
+    background-color: #fdfdfd;
+}
