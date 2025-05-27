@@ -153,7 +153,7 @@ function initializeApp() {
         updateResult();
       }
 
-      // Agregar al historial si hay texto
+      // Solo agregar al historial si hay texto, SIN copiar al portapapeles
       if (textInput.value.trim() !== "" && currentReversedText !== "") {
         addToHistory(textInput.value, currentReversedText);
       }
@@ -164,10 +164,8 @@ function initializeApp() {
   resultCopyBtn.addEventListener("click", function () {
     if (currentReversedText !== "" && textInput.value.trim() !== "") {
       copyToClipboard(currentReversedText);
-      // En modo automático, agregar al historial al copiar
-      if (autoModeCheckbox.checked) {
-        addToHistory(textInput.value, currentReversedText);
-      }
+      // Siempre agregar al historial cuando se copia manualmente
+      addToHistory(textInput.value, currentReversedText);
     }
   });
 
