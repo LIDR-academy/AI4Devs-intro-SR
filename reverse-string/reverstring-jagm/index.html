@@ -68,7 +68,14 @@
         transform: translateY(-2px);
       }
 
+      .result-container {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
       .result-display {
+        flex: 1;
         padding: 15px;
         background: linear-gradient(135deg, #f8f9ff, #e8ecff);
         border-radius: 12px;
@@ -80,6 +87,14 @@
         display: flex;
         align-items: center;
         word-break: break-all;
+      }
+
+      .result-copy-btn {
+        min-width: 100px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .auto-mode {
@@ -280,8 +295,14 @@
           align-items: stretch;
         }
 
-        .history-actions {
-          justify-content: center;
+        .result-container {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .result-copy-btn {
+          min-width: auto;
+          height: 45px;
         }
 
         h1 {
@@ -311,7 +332,12 @@
           <label for="autoMode">Modo automático (invierte mientras escribes)</label>
         </div>
 
-        <div class="result-display" id="resultDisplay">El texto invertido aparecerá aquí...</div>
+        <div class="result-container">
+          <div class="result-display" id="resultDisplay">El texto invertido aparecerá aquí...</div>
+          <button class="btn btn-copy result-copy-btn" id="resultCopyBtn" style="display: none">
+            📋 Copiar
+          </button>
+        </div>
       </div>
 
       <div class="history-section">

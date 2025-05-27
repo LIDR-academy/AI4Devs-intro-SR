@@ -6,6 +6,7 @@ let currentReversedText = "";
 const textInput = document.getElementById("textInput");
 const autoModeCheckbox = document.getElementById("autoMode");
 const resultDisplay = document.getElementById("resultDisplay");
+const resultCopyBtn = document.getElementById("resultCopyBtn");
 const historyList = document.getElementById("historyList");
 const historyCount = document.getElementById("historyCount");
 const notification = document.getElementById("notification");
@@ -128,11 +129,13 @@ function updateResult() {
   if (inputText.trim() === "") {
     resultDisplay.textContent = "El texto invertido aparecerá aquí...";
     currentReversedText = "";
+    resultCopyBtn.style.display = "none";
     return;
   }
 
   currentReversedText = reverseString(inputText);
   resultDisplay.textContent = currentReversedText;
+  resultCopyBtn.style.display = "flex";
 }
 
 // Función de inicialización cuando el DOM está listo
@@ -157,12 +160,23 @@ function initializeApp() {
     }
   });
 
+  // Event listener para el botón de copiar del resultado
+  resultCopyBtn.addEventListener("click", function () {
+    if (currentReversedText !== "" && textInput.value.trim() !== "") {
+      copyToClipboard(currentReversedText);
+      // En modo automático, agregar al historial al copiar
+      if (autoModeCheckbox.checked) {
+        addToHistory(textInput.value, currentReversedText);
+      }
+    }
+  });
+
   // Event listener para el checkbox
   autoModeCheckbox.addEventListener("change", function () {
     if (this.checked) {
       updateResult();
-      resultDisplay.style.cursor = "pointer";
-      resultDisplay.title = "Haz clic para copiar y agregar al historial";
+      resultDisplay.style.cursor = "default";
+      resultDisplay.title = "";
     } else {
       resultDisplay.style.cursor = "default";
       resultDisplay.title = "";
@@ -192,8 +206,7 @@ function initializeApp() {
   });
 
   // Configuración inicial
-  resultDisplay.style.cursor = "pointer";
-  resultDisplay.title = "Haz clic para copiar y agregar al historial";
+  // El botón se muestra/oculta según haya contenido
 }
 
 // Inicializar la aplicación cuando el DOM esté completamente cargado
