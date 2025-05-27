@@ -28,6 +28,15 @@
 > Important Note: The history must be kept in memory (JS), do not use localStorage."
 
 ---
+## **Prompt #1 review:**
+> "This prompt generated a good result in terms of the functionality but failed to generate the code in separate files for the Html and Js code.
+>
+> Re-reading the prompt I can say that the instruction to write the code in separate files wasn't clear enough. This requirement is something that is included in the README.md file.
+>
+> I thought it would understand that from the links added in the prompt.
+>
+> Learning: every detail I want the bot to follow must be expressed clearly
+---
 
 ## **Prompt #2:**
 > "The solution you gave me is working ok.
