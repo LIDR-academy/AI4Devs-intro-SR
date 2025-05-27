@@ -4,3 +4,7 @@
 **/.env.example
 **/node_modules
 **/prompts_master.md
+
+# Ignore IntelliJ IDEA and related files
+**/.idea
+**.iml
