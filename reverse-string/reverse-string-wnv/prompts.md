@@ -39,3 +39,30 @@ Eres un **Senior Software Engineer** y debes crear una página web con lógica e
     <script src="script.js"></script>
 </body>
 </html>
+
+
+## Pregunta (Prompt 2)
+
+En la última versión de `script.js`, ¿por qué has eliminado?
+
+```javascript
+module.exports = { reverseString };
+
+
+## Sugerencia de Mejora (Prompt 3)
+
+Creo que podríamos separar algunas responsabilidades. Por ejemplo, toda la parte del script relacionada con el **historial** debería ir en un fichero `history.js`. Este último se cargaría en el **HTML**, pero **no como módulo**. 
+
+El fichero `script.js` debería cargarse como **módulo** porque también lo usamos dentro de los **tests**.
+
+
+## Error en la Importación
+
+Me da el siguiente error, ¿podrías corregirlo?
+
+/practices/lidr-projects/AI4Devs-intro-SR/reverse-string/reverse-string-wnv/reverseString.test.js:4
+import { reverseString } from "./script.js"; // Importamos desde el archivo script.js
+^^^^^^
+
+SyntaxError: Cannot use import statement outside a module
+

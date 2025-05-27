@@ -1,4 +1,4 @@
-const { reverseString } = require("./script.js");
+import { reverseString } from "./script.js"; // Importamos desde el archivo script.js
 
 describe("reverseString", () => {
   test("debería invertir la cadena correctamente", () => {
