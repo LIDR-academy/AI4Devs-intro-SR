@@ -66,3 +66,11 @@ import { reverseString } from "./script.js"; // Importamos desde el archivo scri
 
 SyntaxError: Cannot use import statement outside a module
 
+## Creación de Estilos CSS
+
+Ahora vamos a crear un fichero **CSS** para darle estilos a la app. Los estilos deben ser **minimalistas**, pero al mismo tiempo **agradables a la vista**.
+
+
+## Readme con contexto del proyecto
+
+basado en el contexto que tienes de toda la app crea un fichero Reame que refleje la implementación y la puesta en marcha del proyecto 
