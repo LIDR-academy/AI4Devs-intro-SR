@@ -73,4 +73,12 @@ Ahora vamos a crear un fichero **CSS** para darle estilos a la app. Los estilos 
 
 ## Readme con contexto del proyecto
 
-basado en el contexto que tienes de toda la app crea un fichero Reame que refleje la implementación y la puesta en marcha del proyecto 
+basado en el contexto que tienes de toda la app crea un fichero Reame que refleje la implementación y la puesta en marcha del proyecto
+
+
+## Chatbot utilizado
+chatgpt model gpt-4o
+
+## Correcciones de los errores
+
+Lo he solucionado iterando con otro prompt indicando el error al modelo para que pudiera corregirlo.
