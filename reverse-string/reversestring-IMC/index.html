@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse String</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    #autoDiv {
+      display: none;
+      margin-top: 1rem;
+      background: #e2f0d9;
+      padding: 1rem;
+      border-radius: 4px;
+      width: 300px;
+    }
+
+    table {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    td .action-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 0.5rem;
+    }
+
+    .action-btn {
+      background: #6c757d;
+    }
+
+    .action-btn:hover {
+      background: #343a40;
+    }
+  </style>
+</head>
+<body>
+  <h1>Reverse String</h1>
+  <input type="text" id="inputText" placeholder="Write any text..." />
+  <div class="controls">
+    <button id="reverseBtn">
+      Reverse <span>🔄</span>
+    </button>
+    <label>
+      <input type="checkbox" id="autoCheckbox" />
+      automatic mode activated
+    </label>
+  </div>
+
+  <div id="autoDiv">
+    <p>Reversed text: <span id="liveReverse"></span></p>
+    <button id="saveAutoBtn">Save <span>💾</span></button>
+  </div>
+
+  <table id="historyTable">
+    <thead>
+      <tr>
+        <th>Reversed String</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
