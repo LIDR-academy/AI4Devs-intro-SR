@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">String Reverser</h1>
+            <p class="subtitle">Invierte cualquier cadena de texto instantáneamente</p>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <input type="text" id="input-text" class="input-field" placeholder="Escribe tu texto aquí..." />
+            </div>
+            
+            <div class="input-group">
+                <input type="text" id="output-text" class="input-field output-field" placeholder="Texto invertido aparecerá aquí..." readonly />
+            </div>
+
+            <div class="auto-mode">
+                <input type="checkbox" id="auto-mode" class="checkbox" checked />
+                <label for="auto-mode" class="checkbox-label">Modo automático</label>
+            </div>
+
+            <button id="copy-btn" class="copy-btn">Copiar al portapapeles</button>
+        </div>
+
+        <div class="history-section">
+            <h2 class="history-title">Historial</h2>
+            <div id="history-list" class="history-list">
+                <div id="empty-history" class="empty-history">No hay cadenas invertidas aún</div>
+            </div>
+        </div>
+
+        <!-- Template para items del historial -->
+        <template id="history-item-template">
+            <div class="history-item">
+                <div class="history-original"></div>
+                <div class="history-reversed"></div>
+                <div class="history-actions">
+                    <button class="load-btn">Cargar</button>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
