@@ -1,0 +1,185 @@
+// Variables globales
+let history = [];
+let currentReversedText = "";
+
+// Referencias DOM
+const textInput = document.getElementById("textInput");
+const autoModeCheckbox = document.getElementById("autoMode");
+const resultDisplay = document.getElementById("resultDisplay");
+const historyList = document.getElementById("historyList");
+const historyCount = document.getElementById("historyCount");
+const notification = document.getElementById("notification");
+
+// Función para invertir texto
+function reverseString(str) {
+  return str.split("").reverse().join("");
+}
+
+// Función para mostrar notificación
+function showNotification(message = "¡Texto copiado al portapapeles! 📋") {
+  notification.textContent = message;
+  notification.classList.add("show");
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2000);
+}
+
+// Función para copiar al portapapeles
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showNotification();
+  } catch (err) {
+    // Fallback para navegadores que no soportan clipboard API
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      showNotification();
+    } catch (err) {
+      showNotification("Error al copiar texto");
+    }
+    document.body.removeChild(textArea);
+  }
+}
+
+// Función para agregar al historial
+function addToHistory(original, reversed) {
+  // Evitar duplicados exactos
+  const exists = history.some(item => item.original === original && item.reversed === reversed);
+
+  if (!exists && original.trim() !== "") {
+    const historyItem = {
+      id: Date.now(),
+      original: original,
+      reversed: reversed,
+      timestamp: new Date(),
+    };
+
+    history.unshift(historyItem);
+    updateHistoryDisplay();
+  }
+}
+
+// Función para actualizar la visualización del historial
+function updateHistoryDisplay() {
+  historyCount.textContent = history.length;
+
+  if (history.length === 0) {
+    historyList.innerHTML = `
+            <div class="empty-history">
+                No hay inversiones en el historial aún. ¡Empieza escribiendo algo arriba!
+            </div>
+        `;
+    return;
+  }
+
+  historyList.innerHTML = history
+    .map(
+      item => `
+        <div class="history-item">
+            <div class="history-content">
+                <div class="original-text">Original: "${item.original}"</div>
+                <div class="reversed-text">Invertido: "${item.reversed}"</div>
+            </div>
+            <div class="history-actions">
+                <button class="btn btn-copy" onclick="copyFromHistory('${item.reversed.replace(
+                  /'/g,
+                  "\\'"
+                )}')">
+                    📋 Copiar
+                </button>
+                <button class="btn btn-reload" onclick="reloadToInput('${item.original.replace(
+                  /'/g,
+                  "\\'"
+                )}')">
+                    ↩️ Recargar
+                </button>
+            </div>
+        </div>
+    `
+    )
+    .join("");
+}
+
+// Función para copiar desde el historial
+function copyFromHistory(text) {
+  copyToClipboard(text);
+}
+
+// Función para recargar texto al input
+function reloadToInput(text) {
+  textInput.value = text;
+  updateResult();
+  textInput.focus();
+  showNotification("Texto recargado en el campo de entrada 🔄");
+}
+
+// Función para actualizar el resultado
+function updateResult() {
+  const inputText = textInput.value;
+
+  if (inputText.trim() === "") {
+    resultDisplay.textContent = "El texto invertido aparecerá aquí...";
+    currentReversedText = "";
+    return;
+  }
+
+  currentReversedText = reverseString(inputText);
+  resultDisplay.textContent = currentReversedText;
+}
+
+// Función de inicialización cuando el DOM está listo
+function initializeApp() {
+  // Event listeners
+  textInput.addEventListener("input", function () {
+    if (autoModeCheckbox.checked) {
+      updateResult();
+    }
+  });
+
+  textInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      if (!autoModeCheckbox.checked) {
+        updateResult();
+      }
+
+      // Agregar al historial si hay texto
+      if (textInput.value.trim() !== "" && currentReversedText !== "") {
+        addToHistory(textInput.value, currentReversedText);
+      }
+    }
+  });
+
+  autoModeCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      updateResult();
+      resultDisplay.style.cursor = "pointer";
+      resultDisplay.title = "Haz clic para copiar y agregar al historial";
+    } else {
+      resultDisplay.style.cursor = "default";
+      resultDisplay.title = "";
+    }
+  });
+
+  // Agregar funcionalidad de clic en el resultado para copiar (solo en modo automático)
+  resultDisplay.addEventListener("click", function () {
+    if (autoModeCheckbox.checked && currentReversedText !== "" && textInput.value.trim() !== "") {
+      copyToClipboard(currentReversedText);
+      addToHistory(textInput.value, currentReversedText);
+    }
+  });
+
+  // Configuración inicial
+  resultDisplay.style.cursor = "pointer";
+  resultDisplay.title = "Haz clic para copiar y agregar al historial";
+}
+
+// Inicializar la aplicación cuando el DOM esté completamente cargado
+document.addEventListener("DOMContentLoaded", initializeApp);
