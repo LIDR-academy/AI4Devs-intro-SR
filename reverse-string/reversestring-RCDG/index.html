@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .historico {
+      margin-top: 20px;
+    }
+    .item {
+      margin: 5px 0;
+    }
+    .item button {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Inversor de Texto</h1>
+  <input type="text" id="entradaTexto" placeholder="Introduce texto...">
+  <button id="btnMostrar">Mostrar resultado</button>
+  <button id="btnCopiar">Copiar</button>
+  <label>
+    <input type="checkbox" id="modoAutomatico" checked>
+    Modo automático
+  </label>
+  <p>Resultado invertido: <span id="resultado"></span></p>
+
+  <div class="historico">
+    <h2>Histórico</h2>
+    <div id="listaHistorico"></div>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>
