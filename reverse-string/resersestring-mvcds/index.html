@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reverse String</title>    
-</head>
-<body>
-<script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>String Reverser</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      #outputList {
+        list-style-type: none;
+        padding: 0;
+      }
+      #outputList li {
+        margin-bottom: 10px;
+      }
+      .btn {
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>String Reverser</h1>
+
+    <input
+      type="text"
+      id="inputField"
+      placeholder="Type and press Enter"
+      autofocus
+    />
+    <label>
+      <input type="checkbox" id="previewCheckbox" /> Enable preview &
+      auto-reverse
+    </label>
+    <div
+      id="previewArea"
+      style="margin-top: 10px; color: gray; display: none"
+    ></div>
+
+    <ul id="outputList"></ul>
+
+    <script src="script.js"></script>
+  </body>
 </html>
