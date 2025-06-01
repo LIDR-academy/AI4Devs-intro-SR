@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reversor de Cadenas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    label, input, button {
+      display: block;
+      margin: 10px 0;
+    }
+    #reversedOutput {
+      display: inline-block;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    #history {
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Reversor de Cadenas</h1>
+
+  <form id="formString">
+    <label for="txtOriginalString">Cadena original:</label>
+    <input type="text" id="txtOriginalString" placeholder="Ingresa una cadena" />
+
+    <label>
+      <input type="checkbox" id="chkMode" checked />
+      Guardar historial
+    </label>
+
+    <button type="button" id="btnCopy">Copy</button>
+    <button type="button" id="btnReverse">Reverse</button>
+
+    <span id="reversedOutput"></span>
+  </form>
+
+  <div id="history">
+    <h3>Historial de cadenas invertidas</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
